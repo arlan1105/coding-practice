@@ -13,8 +13,7 @@
 #   3. The sum of the 3 digits in CCC appears inside DDDD
 #   4. Any digit repeats 4+ times in a row (formatting characters ignored)
 #
-# Note: the rules are made up for the puzzle and don't match how real
-# spam filters or real country codes work.
+# Note: the rules are made up for the puzzle
 
 import re
 def is_spam(number):
