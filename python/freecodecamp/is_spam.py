@@ -19,21 +19,12 @@ import re
 def is_spam(number):
 
     numlist = [word.strip() for word in re.split(r'[-()+]', number) if word.strip()]
-    spam = False
     numjoined = ''.join(numlist)
 
-    if len(numlist[0]) > 2 or not numlist[0].startswith('0'):
-        spam = True
-    elif int(numlist[1]) < 200 or int(numlist[1]) > 900:
-        spam = True
-    elif numlist[3].count(str((sum([int(digit) for digit in numlist[2]])))) > 0:
-        spam = True
-    elif any(a == b == c == d for a, b, c, d in zip(numjoined, numjoined[1:], numjoined[2:], numjoined[3:])):
-        spam = True
-    else:
-        spam = False
-
-    return spam
+    return (len(numlist[0]) > 2 or not numlist[0].startswith('0')
+        or int(numlist[1]) < 200 or int(numlist[1]) > 900
+        or numlist[3].count(str(sum([int(digit) for digit in numlist[2]]))) > 0
+        or any(a == b == c == d for a, b, c, d in zip(numjoined, numjoined[1:], numjoined[2:], numjoined[3:])))
 
 print(f'+0 (200) 234-0182', is_spam('+0 (200) 234-0182'))
 print(f'+1 (300) 234-0182 violates r1', is_spam('+1 (300) 234-0182'))
