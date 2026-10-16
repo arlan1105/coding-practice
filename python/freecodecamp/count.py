@@ -8,4 +8,4 @@ def count(text, parameter):
 
 print(count('101010101010101010101', '101'))
 
-# return sum(text.startswith(pattern, i) for i in range(len(text)))
+# return sum(text.startswith(pattern, i) for i in range(len(text)))+
