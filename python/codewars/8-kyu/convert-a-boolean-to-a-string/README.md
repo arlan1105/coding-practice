@@ -1,0 +1,1 @@
+<h2><a href=https://www.codewars.com/kata/551b4501ac0447318f0009cd/train/python target="_blank">Convert a Boolean to a String</a></h2><h3>8 kyu</h3><p>Implement a function which convert the given boolean value into its string representation.</p><p>Note: Only valid inputs will be given.</p>
