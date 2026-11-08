@@ -1,0 +1,1 @@
+<h2><a href=https://www.codewars.com/kata/57f781872e3d8ca2a000007e/train/python target="_blank">Beginner - Lost Without a Map</a></h2><h3>8 kyu</h3><p>Given an array of integers, return a new array with each value doubled.</p><p>For example:</p><p><code>[1, 2, 3] --&gt; [2, 4, 6]</code></p>
