@@ -1,0 +1,1 @@
+<h2><a href=https://www.codewars.com/kata/57a0556c7cb1f31ab3000ad7/train/python target="_blank">MakeUpperCase</a></h2><h3>8 kyu</h3><p>Write a function which converts the input string to uppercase.</p>
