@@ -1,0 +1,1 @@
+<h2><a href=https://www.codewars.com/kata/57a0885cbb9944e24c00008e/train/python target="_blank">Remove exclamation marks</a></h2><h3>8 kyu</h3><p>Write function RemoveExclamationMarks which removes all exclamation marks from a given string.</p>
