@@ -92,8 +92,8 @@ def generate_readme():
             lines.append("<details>")
             lines.append(f"<summary><b>{lang_name} ({len(files)} solutions)</b></summary>")
             lines.append("")
-            for f in files:
-                rel_path = f.as_posix()
+                for f in files:
+                rel_path = f.as_posix().replace(" ", "%20")
                 label = format_label(f)
                 lines.append(f"- [{label}]({rel_path})")
             lines.append("")
