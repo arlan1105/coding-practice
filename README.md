@@ -29,14 +29,14 @@ Daily coding challenges and practice problems across multiple platforms.
 - `2026-11-27` [sum-of-the-first-nth-term-of-series](python/codewars/7-kyu/sum-of-the-first-nth-term-of-series/sum-of-the-first-nth-term-of-series.py) · Codewars · Python
 - `2026-11-27` [testing-1-2-3](python/codewars/7-kyu/testing-1-2-3/testing-1-2-3.py) · Codewars · Python
 - `2026-11-27` [removing-elements](python/codewars/8-kyu/removing-elements/removing-elements.py) · Codewars · Python
+- `2026-11-27` [even-or-odd](java/codewars/8-kyu/even-or-odd/even-or-odd.java) · Codewars · Java
 - `2026-11-27` [calculate_age](python/freecodecamp/calculate_age.py) · freeCodeCamp · Python
-- `2026-11-27` [fizz_buzz](python/freecodecamp/fizz_buzz.py) · freeCodeCamp · Python
 
 ## 📈 Solutions per Month
 
 ```
 2026-10  ████░░░░░░░░░░░░░░░░░░░░  31
-2026-11  ████████████████████████  174
+2026-11  ████████████████████████  175
 ```
 
 ## 📁 Platform Breakdown
