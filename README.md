@@ -2,41 +2,41 @@
 
 Daily coding challenges and practice problems across multiple platforms.
 
-![Solutions](https://img.shields.io/badge/Solutions-209-2ea44f?style=flat-square) ![Platforms](https://img.shields.io/badge/Platforms-4-0969da?style=flat-square) ![Languages](https://img.shields.io/badge/Languages-2-8250df?style=flat-square) ![Last solved](https://img.shields.io/badge/Last%20solved-2026--11--27-d29922?style=flat-square)
+![Solutions](https://img.shields.io/badge/Solutions-210-2ea44f?style=flat-square) ![Platforms](https://img.shields.io/badge/Platforms-4-0969da?style=flat-square) ![Languages](https://img.shields.io/badge/Languages-2-8250df?style=flat-square) ![Last solved](https://img.shields.io/badge/Last%20solved-2026--11--27-d29922?style=flat-square)
 
 ## 📊 Overall Stats
 
 | Platform | Solutions | Share | |
 |---|---:|---:|---|
-| Codewars | 141 | 67% | `█████████████░░░░░░░` |
+| Codewars | 142 | 68% | `██████████████░░░░░░` |
 | freeCodeCamp | 55 | 26% | `█████░░░░░░░░░░░░░░░` |
 | CodeChum | 10 | 5% | `█░░░░░░░░░░░░░░░░░░░` |
 | Codeforces | 3 | 1% | `░░░░░░░░░░░░░░░░░░░░` |
-| **Total** | **209** | | |
+| **Total** | **210** | | |
 
 | Language | Solutions | Share |
 |---|---:|---:|
-| Python | 208 | 100% |
+| Python | 209 | 100% |
 | Java | 1 | 0% |
 
 ## 🕒 Recent Activity (last 10)
 
 - `2026-11-27` [A - Watermelon](python/codeforces/4/A%20-%20Watermelon/solution.txt) · Codeforces · Python
 - `2026-11-27` [A - Way Too Long Words](python/codeforces/71/A%20-%20Way%20Too%20Long%20Words/solution.txt) · Codeforces · Python
+- `2026-11-27` [A - Watermelon](java/codeforces/4/A%20-%20Watermelon/solution.java) · Codeforces · Java
 - `2026-11-27` [are-they-the-same](python/codewars/6-kyu/are-they-the-same/are-they-the-same.py) · Codewars · Python
 - `2026-11-27` [remove-the-minimum](python/codewars/7-kyu/remove-the-minimum/remove-the-minimum.py) · Codewars · Python
 - `2026-11-27` [sum-of-the-first-nth-term-of-series](python/codewars/7-kyu/sum-of-the-first-nth-term-of-series/sum-of-the-first-nth-term-of-series.py) · Codewars · Python
 - `2026-11-27` [testing-1-2-3](python/codewars/7-kyu/testing-1-2-3/testing-1-2-3.py) · Codewars · Python
+- `2026-11-27` [even-or-odd](python/codewars/8-kyu/even-or-odd/even-or-odd.java) · Codewars · Python
 - `2026-11-27` [removing-elements](python/codewars/8-kyu/removing-elements/removing-elements.py) · Codewars · Python
 - `2026-11-27` [calculate_age](python/freecodecamp/calculate_age.py) · freeCodeCamp · Python
-- `2026-11-27` [fizz_buzz](python/freecodecamp/fizz_buzz.py) · freeCodeCamp · Python
-- `2026-11-27` [is_fizz_buzz](python/freecodecamp/is_fizz_buzz.py) · freeCodeCamp · Python
 
 ## 📈 Solutions per Month
 
 ```
 2026-10  ████░░░░░░░░░░░░░░░░░░░░  31
-2026-11  ████████████████████████  173
+2026-11  ████████████████████████  175
 ```
 
 ## 📁 Platform Breakdown
@@ -58,10 +58,10 @@ Daily coding challenges and practice problems across multiple platforms.
 
 </details>
 
-### Codewars (141)
+### Codewars (142)
 
 <details>
-<summary><b>Python (141 solutions)</b></summary>
+<summary><b>Python (142 solutions)</b></summary>
 
 - [format_duration](python/codewars/4-kyu/format_duration.py)
 - [snail_map](python/codewars/4-kyu/snail_map.py)
@@ -172,6 +172,7 @@ Daily coding challenges and practice problems across multiple platforms.
 - [do-i-get-a-bonus](python/codewars/8-kyu/do-i-get-a-bonus/do-i-get-a-bonus.py)
 - [double-char](python/codewars/8-kyu/double-char/double-char.py)
 - [double_integer](python/codewars/8-kyu/double_integer.py)
+- [even-or-odd](python/codewars/8-kyu/even-or-odd/even-or-odd.java)
 - [fake-binary](python/codewars/8-kyu/fake-binary/fake-binary.py)
 - [function-1-hello-world](python/codewars/8-kyu/function-1-hello-world/function-1-hello-world.py)
 - [get-the-mean-of-an-array](python/codewars/8-kyu/get-the-mean-of-an-array/get-the-mean-of-an-array.py)
