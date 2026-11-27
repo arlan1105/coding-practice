@@ -1,0 +1,7 @@
+num = int(input())
+words = [input() for _ in range(num)]
+for word in words:
+    if len(word) < 11:
+        print(word)
+    else:
+        print(word[0]+str(len(word[1:-1]))+word[-1])
