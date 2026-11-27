@@ -14,8 +14,8 @@ Daily coding challenges and practice problems across multiple platforms.
 <details>
 <summary><b>Python (2 solutions)</b></summary>
 
-- [A - Watermelon](python/codeforces/4/A - Watermelon/solution.txt)
-- [A - Way Too Long Words](python/codeforces/71/A - Way Too Long Words/solution.txt)
+- [A - Watermelon](python/codeforces/4/A%20-%20Watermelon/solution.txt)
+- [A - Way Too Long Words](python/codeforces/71/A%20-%20Way%20Too%20Long%20Words/solution.txt)
 
 </details>
 
