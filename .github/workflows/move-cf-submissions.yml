@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'python/codeforces/**'
+      - 'java/codeforces/**'
       - '.github/**'
 
 permissions:
@@ -17,26 +18,49 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Move root Codeforces files to python/codeforces
+      - name: Move root Codeforces files by language
         run: |
-          mkdir -p python/codeforces
           moved=0
-          # Moves rating/contest folders (e.g., 800/, 1200/, 2045/) or root .py/.cpp files created by CFPusher
-          for item in *; do
-            if [[ "$item" =~ ^[0-9]+$ ]] && [ -d "$item" ]; then
-              cp -rn "$item" python/codeforces/
-              rm -rf "$item"
+
+          # 1. Handle folders created by CFPusher (e.g., 800/, 2045/, 2045 - Problem/)
+          for dir in */; do
+            dir="${dir%/}"
+            if [[ "$dir" =~ ^[0-9]+([[:space:]]*-.*)?$ ]] && [ -d "$dir" ]; then
+              find "$dir" -type f | while read -r filepath; do
+                relpath="${filepath#"$dir"/}"
+                if [[ "$filepath" == *.py ]]; then
+                  mkdir -p "python/codeforces/$dir/$(dirname "$relpath")"
+                  mv -f "$filepath" "python/codeforces/$dir/$relpath"
+                elif [[ "$filepath" == *.java ]]; then
+                  mkdir -p "java/codeforces/$dir/$(dirname "$relpath")"
+                  mv -f "$filepath" "java/codeforces/$dir/$relpath"
+                fi
+              done
+              # Remove the root folder if it is now empty
+              rmdir --ignore-fail-on-non-empty -p "$dir" 2>/dev/null || rm -rf "$dir"
               moved=1
-            elif [[ "$item" =~ ^[0-9]+[A-Za-z0-9_]*\.(py|cpp|c|java)$ ]] && [ -f "$item" ]; then
-              mv "$item" python/codeforces/
-              moved=1
+            fi
+          done
+
+          # 2. Handle flat files pushed directly to root
+          for file in *; do
+            if [ -f "$file" ] && [[ "$file" =~ ^[0-9]+.* ]]; then
+              if [[ "$file" == *.py ]]; then
+                mkdir -p python/codeforces
+                mv -f "$file" python/codeforces/
+                moved=1
+              elif [[ "$file" == *.java ]]; then
+                mkdir -p java/codeforces
+                mv -f "$file" java/codeforces/
+                moved=1
+              fi
             fi
           done
 
           if [ "$moved" -eq 1 ]; then
             git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config user.email "41898282+github-actions[bot]@://github.com"
             git add .
-            git commit -m "chore: move Codeforces submissions to python/codeforces"
+            git commit -m "chore: organize Codeforces submissions by language"
             git push
           fi
