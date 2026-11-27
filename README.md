@@ -4,10 +4,20 @@ Daily coding challenges and practice problems across multiple platforms.
 
 ## 📊 Overall Stats
 
-- **Total Solutions:** `206`
-- **Python:** `206`
+- **Total Solutions:** `208`
+- **Python:** `208`
 
 ## 📁 Platform Breakdown
+
+### Codeforces (2)
+
+<details>
+<summary><b>Python (2 solutions)</b></summary>
+
+- [A - Watermelon](python/codeforces/4/A - Watermelon/solution.txt)
+- [A - Way Too Long Words](python/codeforces/71/A - Way Too Long Words/solution.txt)
+
+</details>
 
 ### Codewars (141)
 
