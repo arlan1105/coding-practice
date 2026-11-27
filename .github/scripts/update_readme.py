@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 # Supported languages (folder name -> display name)
@@ -18,7 +17,7 @@ PLATFORMS = {
     "codechum": "CodeChum",
 }
 
-# Only count actual solution code files (ignores README.md, .txt, etc.)
+# Only count actual solution code files (ignores README.md, etc.)
 CODE_EXTENSIONS = {".py", ".java", ".cpp", ".c", ".js", ".ts", ".cs", ".go", ".rs"}
 
 
@@ -27,8 +26,18 @@ def count_solutions(base_path: Path) -> list[Path]:
         return []
     return sorted(
         f for f in base_path.rglob("*")
-        if f.is_file() and f.suffix.lower() in CODE_EXTENSIONS
+        if f.is_file() and (
+            f.suffix.lower() in CODE_EXTENSIONS
+            or (f.name == "solution.txt" and "codeforces" in base_path.parts)
+        )
     )
+
+
+def format_label(file_path: Path) -> str:
+    # If CFPusher named the file "solution.py" / "solution.txt", use its parent folder name (e.g., "A - Way Too Long Words")
+    if file_path.stem.lower() == "solution" and file_path.parent.name not in PLATFORMS:
+        return file_path.parent.name
+    return file_path.stem
 
 
 def generate_readme():
@@ -85,7 +94,8 @@ def generate_readme():
             lines.append("")
             for f in files:
                 rel_path = f.as_posix()
-                lines.append(f"- [{f.stem}]({rel_path})")
+                label = format_label(f)
+                lines.append(f"- [{label}]({rel_path})")
             lines.append("")
             lines.append("</details>")
             lines.append("")
