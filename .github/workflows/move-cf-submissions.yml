@@ -1,0 +1,42 @@
+name: Move CFPusher Submissions
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'python/codeforces/**'
+      - '.github/**'
+
+permissions:
+  contents: write
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Move root Codeforces files to python/codeforces
+        run: |
+          mkdir -p python/codeforces
+          moved=0
+          # Moves rating/contest folders (e.g., 800/, 1200/, 2045/) or root .py/.cpp files created by CFPusher
+          for item in *; do
+            if [[ "$item" =~ ^[0-9]+$ ]] && [ -d "$item" ]; then
+              cp -rn "$item" python/codeforces/
+              rm -rf "$item"
+              moved=1
+            elif [[ "$item" =~ ^[0-9]+[A-Za-z0-9_]*\.(py|cpp|c|java)$ ]] && [ -f "$item" ]; then
+              mv "$item" python/codeforces/
+              moved=1
+            fi
+          done
+
+          if [ "$moved" -eq 1 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "chore: move Codeforces submissions to python/codeforces"
+            git push
+          fi
