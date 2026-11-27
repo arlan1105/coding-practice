@@ -1,80 +1,97 @@
 import os
-from collections import defaultdict
+from pathlib import Path
 
-# Folders to ignore when scanning
-IGNORE_DIRS = {'.git', '.github'}
-# File extensions to count as solutions
-CODE_EXTS = {'.py': 'Python', '.java': 'Java', '.cpp': 'C++', '.c': 'C', '.js': 'JavaScript', '.html': 'HTML/CSS', '.css': 'HTML/CSS'}
-
-# Platform keywords to match folder names (case-insensitive)
-PLATFORMS = {
-    'codeforces': 'Codeforces',
-    'codewars': 'Codewars',
-    'fcc': 'freeCodeCamp',
-    'freecodecamp': 'freeCodeCamp',
-    'codechum': 'CodeChum',
+# Supported languages (folder name -> display name)
+LANGUAGES = {
+    "python": "Python",
+    "java": "Java",
+    "cpp": "C++",
+    "c": "C",
+    "javascript": "JavaScript",
 }
 
-stats = defaultdict(lambda: defaultdict(list))
-lang_counts = defaultdict(int)
-total_solutions = 0
+# Supported platforms (folder name -> display name)
+PLATFORMS = {
+    "codeforces": "Codeforces",
+    "codewars": "Codewars",
+    "freecodecamp": "freeCodeCamp",
+    "codechum": "CodeChum",
+}
 
-for root, dirs, files in os.walk('.'):
-    # Skip hidden/system folders
-    dirs[:] = [d for d in dirs if d not in IGNORE_DIRS and not d.startswith('.')]
-    
-    for file in sorted(files):
-        ext = os.path.splitext(file)[1].lower()
-        if ext not in CODE_EXTS:
-            continue
-            
-        filepath = os.path.join(root, file).lstrip('./').replace('\\', '/')
-        parts = filepath.lower().split('/')
-        
-        # Detect platform from folder path
-        platform_name = 'Other'
-        for part in parts:
-            for key, label in PLATFORMS.items():
-                if key in part:
-                    platform_name = label
-                    break
-            if platform_name != 'Other':
-                break
-                
-        lang = CODE_EXTS[ext]
-        stats[platform_name][lang].append((file, filepath))
-        lang_counts[lang] += 1
-        total_solutions += 1
+# Only count actual solution code files (ignores README.md, .txt, etc.)
+CODE_EXTENSIONS = {".py", ".java", ".cpp", ".c", ".js", ".ts", ".cs", ".go", ".rs"}
 
-# Build Markdown content
-lines = [
-    "# 💻 Coding Practice",
-    "",
-    "Automated archive of my programming solutions across **Codeforces**, **Codewars**, **freeCodeCamp**, and **CodeChum**.",
-    "",
-    "## 📊 Overall Stats",
-    "",
-    f"- **Total Solutions:** `{total_solutions}`",
-]
 
-for lang, count in sorted(lang_counts.items(), key=lambda x: -x[1]):
-    lines.append(f"- **{lang}:** `{count}`")
+def count_solutions(base_path: Path) -> list[Path]:
+    if not base_path.exists():
+        return []
+    return sorted(
+        f for f in base_path.rglob("*")
+        if f.is_file() and f.suffix.lower() in CODE_EXTENSIONS
+    )
 
-lines.extend(["", "## 🗂️ Platform Breakdown", ""])
 
-for platform in ['Codeforces', 'Codewars', 'freeCodeCamp', 'CodeChum', 'Other']:
-    if platform not in stats:
-        continue
-    plat_total = sum(len(v) for v in stats[platform].values())
-    lines.append(f"### {platform} ({plat_total})")
-    lines.append("")
-    for lang, items in sorted(stats[platform].items()):
-        lines.append(f"<details><summary><b>{lang}</b> ({len(items)} solutions)</summary>\n")
-        for filename, path in items:
-            # URL-encode spaces for clickable GitHub links
-            safe_path = path.replace(' ', '%20')
-            lines.append(f"- [{filename}]({safe_path})")
-        lines.append("\n</details>\n")
+def generate_readme():
+    total_solutions = 0
+    lang_totals = {lang_name: 0 for lang_name in LANGUAGES.values()}
+    platform_data = {}
 
-with open("README.md", "w", encoding="utf-8") as f:
-    f.write("\n".join(lines).strip() + "\n")
+    for plat_dir, plat_name in PLATFORMS.items():
+        plat_total = 0
+        plat_langs = {}
+
+        for lang_dir, lang_name in LANGUAGES.items():
+            target = Path(lang_dir) / plat_dir
+            files = count_solutions(target)
+            if files:
+                count = len(files)
+                plat_total += count
+                total_solutions += count
+                lang_totals[lang_name] += count
+                plat_langs[lang_name] = files
+
+        if plat_total > 0:
+            platform_data[plat_name] = {
+                "total": plat_total,
+                "languages": plat_langs,
+            }
+
+    lines = [
+        "# Coding Practice",
+        "",
+        "Daily coding challenges and practice problems across multiple platforms.",
+        "",
+        "## 📊 Overall Stats",
+        "",
+        f"- **Total Solutions:** `{total_solutions}`",
+    ]
+
+    for lang_name, count in lang_totals.items():
+        if count > 0:
+            lines.append(f"- **{lang_name}:** `{count}`")
+
+    lines.extend([
+        "",
+        "## 📁 Platform Breakdown",
+        "",
+    ])
+
+    for plat_name, data in platform_data.items():
+        lines.append(f"### {plat_name} ({data['total']})")
+        lines.append("")
+        for lang_name, files in data["languages"].items():
+            lines.append("<details>")
+            lines.append(f"<summary><b>{lang_name} ({len(files)} solutions)</b></summary>")
+            lines.append("")
+            for f in files:
+                rel_path = f.as_posix()
+                lines.append(f"- [{f.stem}]({rel_path})")
+            lines.append("")
+            lines.append("</details>")
+            lines.append("")
+
+    Path("README.md").write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    generate_readme()
