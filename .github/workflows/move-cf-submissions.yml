@@ -10,66 +10,83 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: organize
+  cancel-in-progress: false
+
 jobs:
   organize-and-readme:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Move root Codeforces files by language
         run: |
           # 1. Handle folders created by CFPusher (e.g., 4/, 71/, 2045 - Problem/)
           for dir in */; do
             dir="${dir%/}"
-            if [[ "$dir" =~ ^[0-9]+([[:space:]]*-.*)?$ ]] && [ -d "$dir" ]; then
-              find "$dir" -type f | while read -r filepath; do
-                relpath="${filepath#"$dir"/}"
-                sub_dir=$(dirname "$filepath")
-                readme="$sub_dir/README.md"
+            [[ "$dir" =~ ^[0-9]+([[:space:]]*-.*)?$ ]] || continue
 
-                # Detect language from file extension OR CFPusher's README.md
-                lang=""
-                if [[ "$filepath" == *.py ]]; then
-                  lang="python"
-                elif [[ "$filepath" == *.java ]]; then
-                  lang="java"
-                elif [ -f "$readme" ]; then
-                  if grep -qiE "python|pypy" "$readme"; then
-                    lang="python"
-                  elif grep -qi "java" "$readme"; then
-                    lang="java"
-                  fi
+            mapfile -d '' files < <(find "$dir" -type f -print0)
+            declare -A sublang=()
+
+            # pass 1: detect language per subfolder before anything moves
+            for f in "${files[@]}"; do
+              d=$(dirname "$f")
+              case "$f" in
+                *.py)   sublang[$d]=python ;;
+                *.java) sublang[$d]=java ;;
+                *.cpp)  sublang[$d]=cpp ;;
+                *.c)    sublang[$d]=c ;;
+              esac
+            done
+            for f in "${files[@]}"; do
+              d=$(dirname "$f")
+              [ -n "${sublang[$d]:-}" ] && continue
+              if [ -f "$d/README.md" ]; then
+                if grep -qiE "python|pypy" "$d/README.md"; then sublang[$d]=python
+                elif grep -qiw "java" "$d/README.md"; then sublang[$d]=java
+                elif grep -qiE "c\+\+|gnu g\+\+" "$d/README.md"; then sublang[$d]=cpp
                 fi
+              fi
+            done
 
-                if [ -n "$lang" ]; then
-                  dest_dir="$lang/codeforces/$dir/$(dirname "$relpath")"
-                  mkdir -p "$dest_dir"
-                  filename=$(basename "$filepath")
+            # pass 2: move
+            for f in "${files[@]}"; do
+              d=$(dirname "$f")
+              lang="${sublang[$d]:-}"
+              [ -z "$lang" ] && continue
+              rel="${f#"$dir"/}"
+              dest="$lang/codeforces/$dir/$(dirname "$rel")"
+              mkdir -p "$dest"
+              name=$(basename "$f")
+              if [ "$name" == "solution.txt" ]; then
+                case "$lang" in
+                  python) name="solution.py" ;;
+                  java)   name="solution.java" ;;
+                  cpp)    name="solution.cpp" ;;
+                  c)      name="solution.c" ;;
+                esac
+              fi
+              mv -f "$f" "$dest/$name"
+            done
 
-                  # Rename solution.txt to solution.py / solution.java for syntax highlighting
-                  if [ "$filename" == "solution.txt" ]; then
-                    [ "$lang" == "python" ] && filename="solution.py"
-                    [ "$lang" == "java" ] && filename="solution.java"
-                  fi
-
-                  mv -f "$filepath" "$dest_dir/$filename"
-                fi
-              done
-              rm -rf "$dir"
-            fi
+            # only remove what is now empty, leftovers stay visible
+            find "$dir" -depth -type d -empty -delete
           done
 
           # 2. Handle flat files pushed directly to root
           for file in *; do
             if [ -f "$file" ] && [[ "$file" =~ ^[0-9]+.* ]]; then
-              if [[ "$file" == *.py ]]; then
-                mkdir -p python/codeforces
-                mv -f "$file" python/codeforces/
-              elif [[ "$file" == *.java ]]; then
-                mkdir -p java/codeforces
-                mv -f "$file" java/codeforces/
-              fi
+              case "$file" in
+                *.py)   mkdir -p python/codeforces && mv -f "$file" python/codeforces/ ;;
+                *.java) mkdir -p java/codeforces   && mv -f "$file" java/codeforces/ ;;
+                *.cpp)  mkdir -p cpp/codeforces    && mv -f "$file" cpp/codeforces/ ;;
+                *.c)    mkdir -p c/codeforces      && mv -f "$file" c/codeforces/ ;;
+              esac
             fi
           done
 
