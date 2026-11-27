@@ -19,21 +19,44 @@ jobs:
 
       - name: Move root Codeforces files by language
         run: |
-          # 1. Handle folders created by CFPusher (e.g., 800/, 2045/, 2045 - Problem/)
+          # 1. Handle folders created by CFPusher (e.g., 4/, 71/, 2045 - Problem/)
           for dir in */; do
             dir="${dir%/}"
             if [[ "$dir" =~ ^[0-9]+([[:space:]]*-.*)?$ ]] && [ -d "$dir" ]; then
               find "$dir" -type f | while read -r filepath; do
                 relpath="${filepath#"$dir"/}"
+                sub_dir=$(dirname "$filepath")
+                readme="$sub_dir/README.md"
+
+                # Detect language from file extension OR CFPusher's README.md
+                lang=""
                 if [[ "$filepath" == *.py ]]; then
-                  mkdir -p "python/codeforces/$dir/$(dirname "$relpath")"
-                  mv -f "$filepath" "python/codeforces/$dir/$relpath"
+                  lang="python"
                 elif [[ "$filepath" == *.java ]]; then
-                  mkdir -p "java/codeforces/$dir/$(dirname "$relpath")"
-                  mv -f "$filepath" "java/codeforces/$dir/$relpath"
+                  lang="java"
+                elif [ -f "$readme" ]; then
+                  if grep -qiE "python|pypy" "$readme"; then
+                    lang="python"
+                  elif grep -qi "java" "$readme"; then
+                    lang="java"
+                  fi
+                fi
+
+                if [ -n "$lang" ]; then
+                  dest_dir="$lang/codeforces/$dir/$(dirname "$relpath")"
+                  mkdir -p "$dest_dir"
+                  filename=$(basename "$filepath")
+
+                  # Rename solution.txt to solution.py / solution.java for syntax highlighting
+                  if [ "$filename" == "solution.txt" ]; then
+                    [ "$lang" == "python" ] && filename="solution.py"
+                    [ "$lang" == "java" ] && filename="solution.java"
+                  fi
+
+                  mv -f "$filepath" "$dest_dir/$filename"
                 fi
               done
-              rmdir --ignore-fail-on-non-empty -p "$dir" 2>/dev/null || rm -rf "$dir"
+              rm -rf "$dir"
             fi
           done
 
