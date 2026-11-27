@@ -90,6 +90,29 @@ jobs:
             fi
           done
 
+      - name: Sort Codewars folders by language
+        run: |
+          declare -A map=( [java]=java [cpp]=cpp [c]=c [cs]=csharp [js]=javascript )
+          plat=codewars
+          [ -d "python/$plat" ] || exit 0
+          find "python/$plat" -type f -print0 | while IFS= read -r -d '' f; do
+            ext="${f##*.}"
+            lang="${map[$ext]:-}"
+            [ -z "$lang" ] && continue
+
+            d=$(dirname "$f")
+            rel="${d#python/$plat}"
+            rel="${rel#/}"
+            dest="$lang/$plat/$rel"
+            mkdir -p "$dest"
+
+            mv -f "$f" "$dest/"
+            if [ "$d" != "python/$plat" ] && [ -f "$d/README.md" ]; then
+              mv -f "$d/README.md" "$dest/"
+            fi
+            rmdir "$d" 2>/dev/null || true
+          done
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
