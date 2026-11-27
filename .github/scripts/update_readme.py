@@ -74,8 +74,10 @@ def added_dates() -> dict[str, str]:
 
 
 def badge(label: str, value: str, color: str) -> str:
+    def esc(s: str) -> str:
+        return quote(str(s).replace("-", "--").replace("_", "__"), safe="")
     return (f"![{label}](https://img.shields.io/badge/"
-            f"{quote(label)}-{quote(str(value))}-{color}?style=flat-square)")
+            f"{esc(label)}-{esc(value)}-{color}?style=flat-square)")
 
 
 def generate_readme():
