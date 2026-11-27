@@ -16,8 +16,8 @@ Daily coding challenges and practice problems across multiple platforms.
 
 | Language | Solutions | Share |
 |---|---:|---:|
-| Python | 209 | 100% |
-| Java | 1 | 0% |
+| Python | 208 | 99% |
+| Java | 2 | 1% |
 
 ## 🕒 Recent Activity (last 10)
 
@@ -28,15 +28,15 @@ Daily coding challenges and practice problems across multiple platforms.
 - `2026-11-27` [remove-the-minimum](python/codewars/7-kyu/remove-the-minimum/remove-the-minimum.py) · Codewars · Python
 - `2026-11-27` [sum-of-the-first-nth-term-of-series](python/codewars/7-kyu/sum-of-the-first-nth-term-of-series/sum-of-the-first-nth-term-of-series.py) · Codewars · Python
 - `2026-11-27` [testing-1-2-3](python/codewars/7-kyu/testing-1-2-3/testing-1-2-3.py) · Codewars · Python
-- `2026-11-27` [even-or-odd](python/codewars/8-kyu/even-or-odd/even-or-odd.java) · Codewars · Python
 - `2026-11-27` [removing-elements](python/codewars/8-kyu/removing-elements/removing-elements.py) · Codewars · Python
 - `2026-11-27` [calculate_age](python/freecodecamp/calculate_age.py) · freeCodeCamp · Python
+- `2026-11-27` [fizz_buzz](python/freecodecamp/fizz_buzz.py) · freeCodeCamp · Python
 
 ## 📈 Solutions per Month
 
 ```
 2026-10  ████░░░░░░░░░░░░░░░░░░░░  31
-2026-11  ████████████████████████  175
+2026-11  ████████████████████████  174
 ```
 
 ## 📁 Platform Breakdown
@@ -61,7 +61,7 @@ Daily coding challenges and practice problems across multiple platforms.
 ### Codewars (142)
 
 <details>
-<summary><b>Python (142 solutions)</b></summary>
+<summary><b>Python (141 solutions)</b></summary>
 
 - [format_duration](python/codewars/4-kyu/format_duration.py)
 - [snail_map](python/codewars/4-kyu/snail_map.py)
@@ -172,7 +172,6 @@ Daily coding challenges and practice problems across multiple platforms.
 - [do-i-get-a-bonus](python/codewars/8-kyu/do-i-get-a-bonus/do-i-get-a-bonus.py)
 - [double-char](python/codewars/8-kyu/double-char/double-char.py)
 - [double_integer](python/codewars/8-kyu/double_integer.py)
-- [even-or-odd](python/codewars/8-kyu/even-or-odd/even-or-odd.java)
 - [fake-binary](python/codewars/8-kyu/fake-binary/fake-binary.py)
 - [function-1-hello-world](python/codewars/8-kyu/function-1-hello-world/function-1-hello-world.py)
 - [get-the-mean-of-an-array](python/codewars/8-kyu/get-the-mean-of-an-array/get-the-mean-of-an-array.py)
@@ -205,6 +204,13 @@ Daily coding challenges and practice problems across multiple platforms.
 - [transportation-on-vacation](python/codewars/8-kyu/transportation-on-vacation/transportation-on-vacation.py)
 - [you-only-need-one-beginner](python/codewars/8-kyu/you-only-need-one-beginner/you-only-need-one-beginner.py)
 - [zero_fuel](python/codewars/8-kyu/zero_fuel.py)
+
+</details>
+
+<details>
+<summary><b>Java (1 solutions)</b></summary>
+
+- [even-or-odd](java/codewars/8-kyu/even-or-odd/even-or-odd.java)
 
 </details>
 
